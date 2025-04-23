@@ -13,18 +13,14 @@
         }
       }
     ],
-    "routes": [
+    "rewrites": [
       {
-        "src": "/api/(.*)",
-        "dest": "/backend/server.js",
-        "methods": ["GET", "POST", "OPTIONS"]
+        "source": "/api/(.*)",
+        "destination": "/backend/server.js"
       },
       {
-        "src": "/(.*)",
-        "dest": "/dist/$1",
-        "headers": {
-          "Cache-Control": "public, max-age=0, must-revalidate"
-        }
+        "source": "/(.*)",
+        "destination": "/dist/$1"
       }
     ],
     "headers": [
@@ -46,6 +42,15 @@
           {
             "key": "Access-Control-Max-Age",
             "value": "86400"
+          }
+        ]
+      },
+      {
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
           }
         ]
       }
