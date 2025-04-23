@@ -1,0 +1,56 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "backend/server.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "frontend/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "dist"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/backend/server.js",
+        "methods": ["GET", "POST", "OPTIONS"]
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/dist/$1",
+        "headers": {
+          "Cache-Control": "public, max-age=0, must-revalidate"
+        }
+      }
+    ],
+    "headers": [
+      {
+        "source": "/api/(.*)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET, POST, OPTIONS"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Content-Type, Origin, X-Requested-With, Accept"
+          },
+          {
+            "key": "Access-Control-Max-Age",
+            "value": "86400"
+          }
+        ]
+      }
+    ],
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
